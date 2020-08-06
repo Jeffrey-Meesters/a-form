@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrapper">
-    <h1 class="form-title">Communication Questionnaire for Jeffrey</h1>
+    <h1 class="form-title">Communication Questionnaire about Jeffrey</h1>
     <form class="form" @submit.prevent="yolo">
       <RadioFieldset
         :listening.sync="listening"
@@ -32,6 +32,9 @@
         radioID="feedback"
         legendText="Gives constructive feedback"
       />
+      <div class="hr-wrapper">
+        <hr />
+      </div>
 
       <fieldset class="fieldset">
         <legend class="number-legend">
@@ -43,7 +46,7 @@
         <input
           type="number"
           id="input-overall"
-          min="0"
+          min="1"
           max="10"
           @change="updateValue($event, 'overallNumber')"
           :value="overallNumber"
@@ -56,9 +59,8 @@
           skills:
         </legend>
         <textarea
+          rows="3"
           id="input-remark"
-          min="1"
-          max="10"
           @input="updateValue($event, 'freeText')"
           :value="freeText"
         />
@@ -108,6 +110,16 @@ export default {
   .fieldset {
     min-width: 45%;
     max-width: 45%;
+  }
+
+  .hr-wrapper {
+    width: 97%;
+    margin: 10px 0;
+
+    hr {
+      height: 1px;
+      border-width: 2px;
+    }
   }
 
   .button-wrapper {

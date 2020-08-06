@@ -91,3 +91,11 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+fieldset {
+  div {
+    display: flex;
+    align-items: center;
+  }
+}
+</style>
