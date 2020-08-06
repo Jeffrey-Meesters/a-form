@@ -6,32 +6,40 @@
         :listening.sync="listening"
         radioID="listening"
         legendText="Listens to what I say"
+        :responseOptions="responseOptions"
       />
       <RadioFieldset
         :understanding.sync="understanding"
         radioID="understanding"
         legendText="Understands my point of view"
+        :responseOptions="responseOptions"
       />
       <RadioFieldset
         :communicating.sync="communicating"
         radioID="communicating"
         legendText="Communicates clearly"
+        :responseOptions="responseOptions"
       />
       <RadioFieldset
         :requesting.sync="requesting"
         radioID="requesting"
         legendText="Makes effective requests"
+        :responseOptions="responseOptions"
       />
       <RadioFieldset
         :promise.sync="promise"
         radioID="promise"
         legendText="Keeps promises"
+        :responseOptions="responseOptions"
       />
+
       <RadioFieldset
         :feedback.sync="feedback"
         radioID="feedback"
         legendText="Gives constructive feedback"
+        :responseOptions="responseOptions"
       />
+
       <div class="hr-wrapper">
         <hr />
       </div>
@@ -89,7 +97,8 @@ export default {
       promise: null,
       feedback: null,
       overallNumber: 1,
-      freeText: null
+      freeText: null,
+      responseOptions: ["unsatisfactory", "poor", "normal", "good", "excellent"]
     };
   },
   methods: {
@@ -110,6 +119,10 @@ export default {
   .fieldset {
     min-width: 45%;
     max-width: 45%;
+
+    textarea {
+      width: 99%;
+    }
   }
 
   .hr-wrapper {

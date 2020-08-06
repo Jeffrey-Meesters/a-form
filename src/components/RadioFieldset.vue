@@ -1,61 +1,17 @@
 <template>
   <fieldset class="fieldset">
     <legend class="radio-legend">{{ legendText }}</legend>
-    <div>
+    <div v-for="(option, index) in responseOptions" :key="index">
       <input
         type="radio"
         :name="radioID"
-        :id="`input-${radioID}-unsatisfactory`"
+        :id="`input-${radioID}-${option}`"
         :value="radioID"
-        @input="$emit(`update:${radioID}`, 'unsatisfactory')"
+        @input="$emit(`update:${radioID}`, option)"
       />
-      <label :for="`input-${radioID}-unsatisfactory`" class="label"
-        >unsatisfactory</label
-      >
-    </div>
-    <div>
-      <input
-        type="radio"
-        @change="onChange($event, radioID)"
-        :name="radioID"
-        :id="`input-${radioID}-poor`"
-        :value="radioID"
-        @input="$emit(`update:${radioID}`, 'poor')"
-      />
-      <label :for="`input-${radioID}-poor`" class="label">poor</label>
-    </div>
-    <div>
-      <input
-        type="radio"
-        @change="onChange($event, radioID)"
-        :name="radioID"
-        :id="`input-${radioID}-normal`"
-        :value="radioID"
-        @input="$emit(`update:${radioID}`, 'normal')"
-      />
-      <label :for="`input-${radioID}-normal`" class="label">normal</label>
-    </div>
-    <div>
-      <input
-        type="radio"
-        @change="onChange($event, radioID)"
-        :name="radioID"
-        :id="`input-${radioID}-good`"
-        :value="radioID"
-        @input="$emit(`update:${radioID}`, 'good')"
-      />
-      <label :for="`input-${radioID}-good`" class="label">good</label>
-    </div>
-    <div>
-      <input
-        type="radio"
-        @change="onChange($event, radioID)"
-        :name="radioID"
-        :id="`input-${radioID}-excellent`"
-        :value="radioID"
-        @input="$emit(`update:${radioID}`, 'excellent')"
-      />
-      <label :for="`input-${radioID}-excellent`" class="label">excellent</label>
+      <label :for="`input-${radioID}-${option}`" class="label">{{
+        option
+      }}</label>
     </div>
   </fieldset>
 </template>
@@ -71,6 +27,10 @@ export default {
     legendText: {
       type: String,
       required: true
+    },
+    responseOptions: {
+      type: Array,
+      required: true
     }
   },
   data() {
@@ -85,7 +45,6 @@ export default {
   },
   methods: {
     onChange(event, radioID) {
-      console.log(event.target.value, radioID);
       this[radioID] = event.target.value;
     }
   }
