@@ -1,5 +1,6 @@
 <template>
   <div class="form-wrapper">
+    {{ userData }}
     <h1 class="form-title">Communication Questionnaire about Jeffrey</h1>
     <form class="form" @submit.prevent="yolo">
       <RadioFieldset
@@ -87,6 +88,16 @@ export default {
   name: "Form",
   components: {
     RadioFieldset
+  },
+  computed: {
+    userData() {
+      return this.$store.state.user;
+    }
+  },
+  mounted() {
+    if (!this.userData) {
+      this.$router.push("/");
+    }
   },
   data() {
     return {

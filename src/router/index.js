@@ -6,8 +6,15 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Form",
-    component: () => import(/* webpackChunkName: "about" */ "../views/Form.vue")
+    name: "login",
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/SignIn.vue")
+  },
+  {
+    path: "/questionnaire",
+    name: "questionnaire",
+    component: () =>
+      import(/* webpackChunkName: "questionnaire" */ "../views/Form.vue")
   }
 ];
 
