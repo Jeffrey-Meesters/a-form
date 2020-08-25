@@ -1,8 +1,20 @@
 <template>
-  <div>
-    <button @click="test">test</button>
-    <button @click="sendSignIn">Go to Questionaire</button>
-  </div>
+  <section>
+    <h1>Welcome to this questionnaire</h1>
+    <p>
+      Your answers to this questionnaire will be saved in a database.
+      <br />
+      However this will be done anonymous. At the end of the questionnaire you
+      will get a reference id.
+      <br />
+      You can save that reference id for yourself on your computer for when you
+      might want to talk about your answers later.
+      <br />
+      However, keep in mind that sharing that reference id may revoke your
+      anonymity
+    </p>
+    <button @click="sendSignIn">Go to Questionnaire</button>
+  </section>
 </template>
 
 <script>
@@ -12,14 +24,13 @@ export default {
   methods: {
     async sendSignIn() {
       try {
-        const user = await this.signIn();
-        console.log(444, user);
+        const user = await signIn();
+        console.log(user);
         this.$store.dispatch("setUser", user);
       } catch (err) {
         alert(err);
       }
-    },
-    signIn
+    }
   }
 };
 </script>

@@ -168,8 +168,9 @@ export default {
       }
 
       const response = await updateUser(this.form);
-
-      console.log(response);
+      if (Object.keys(response).length) {
+        this.$router.push("/thanks");
+      }
     }
   },
   watch: {
