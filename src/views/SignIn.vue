@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button @click="test">test</button>
     <button @click="sendSignIn">Go to Questionaire</button>
   </div>
 </template>

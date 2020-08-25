@@ -39,6 +39,35 @@ export async function getUser() {
   }
 }
 
+export async function testRules(data) {
+  const userRef = db.collection("users").doc("yolo");
+
+  const response = await userRef.set(
+    {
+      [`formData-${Date.now()}`]: data
+    },
+    { merge: true }
+  );
+
+  return response;
+}
+
+export async function updateUser(data) {
+  const currentUser = firebase.auth().currentUser;
+  const userRef = db.collection("users").doc(currentUser.uid);
+  const currentTimeStamp = Date.now();
+  data.timeStamp = currentTimeStamp;
+
+  const response = await userRef.set(
+    {
+      [`formData-${currentTimeStamp}`]: data
+    },
+    { merge: true }
+  );
+
+  return response;
+}
+
 export async function initAuth() {
   auth.onAuthStateChanged(function(user) {
     store.commit("SET_USER", user);

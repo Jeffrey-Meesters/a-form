@@ -91,6 +91,7 @@
 
 <script>
 import RadioFieldset from "@/components/RadioFieldset";
+import { updateUser } from "@/services/firebase";
 export default {
   name: "Form",
   components: {
@@ -161,8 +162,14 @@ export default {
       return invalidKeys;
     },
     async submitAnswers() {
-      // const valid =
-      await this.validateInput();
+      const isValid = await this.validateInput();
+      if (isValid.length) {
+        return;
+      }
+
+      const response = await updateUser(this.form);
+
+      console.log(response);
     }
   },
   watch: {
