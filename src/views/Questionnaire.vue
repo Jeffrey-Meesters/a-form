@@ -1,42 +1,47 @@
 <template>
-  <div class="form-wrapper">
-    {{ userData }}
+  <div class="form-wrapper" v-if="userData">
     <h1 class="form-title">Communication Questionnaire about Jeffrey</h1>
-    <form class="form" @submit.prevent="yolo">
+    <form class="form" @submit.prevent="submitAnswers">
       <RadioFieldset
-        :listening.sync="listening"
+        :listening.sync="form.listening"
         radioID="listening"
+        ref="listening"
         legendText="Listens to what I say"
         :responseOptions="responseOptions"
       />
       <RadioFieldset
-        :understanding.sync="understanding"
+        :understanding.sync="form.understanding"
         radioID="understanding"
+        ref="understanding"
         legendText="Understands my point of view"
         :responseOptions="responseOptions"
       />
       <RadioFieldset
-        :communicating.sync="communicating"
+        :communicating.sync="form.communicating"
         radioID="communicating"
+        ref="communicating"
         legendText="Communicates clearly"
         :responseOptions="responseOptions"
       />
       <RadioFieldset
-        :requesting.sync="requesting"
+        :requesting.sync="form.requesting"
         radioID="requesting"
+        ref="requesting"
         legendText="Makes effective requests"
         :responseOptions="responseOptions"
       />
       <RadioFieldset
-        :promise.sync="promise"
+        :promise.sync="form.promise"
         radioID="promise"
+        ref="promise"
         legendText="Keeps promises"
         :responseOptions="responseOptions"
       />
 
       <RadioFieldset
-        :feedback.sync="feedback"
+        :feedback.sync="form.feedback"
         radioID="feedback"
+        ref="feedback"
         legendText="Gives constructive feedback"
         :responseOptions="responseOptions"
       />
@@ -57,8 +62,9 @@
           id="input-overall"
           min="1"
           max="10"
+          ref="overallNumber"
           @change="updateValue($event, 'overallNumber')"
-          :value="overallNumber"
+          :value="form.overallNumber"
         />
       </fieldset>
 
@@ -70,8 +76,9 @@
         <textarea
           rows="3"
           id="input-remark"
+          ref="freeText"
           @input="updateValue($event, 'freeText')"
-          :value="freeText"
+          :value="form.freeText"
         />
       </fieldset>
 
@@ -101,20 +108,71 @@ export default {
   },
   data() {
     return {
-      listening: null,
-      understanding: null,
-      communicating: null,
-      requesting: null,
-      promise: null,
-      feedback: null,
-      overallNumber: 1,
-      freeText: null,
+      isValidated: false,
+      form: {
+        listening: null,
+        understanding: null,
+        communicating: null,
+        requesting: null,
+        promise: null,
+        feedback: null,
+        overallNumber: 0,
+        freeText: null
+      },
       responseOptions: ["unsatisfactory", "poor", "normal", "good", "excellent"]
     };
   },
   methods: {
     updateValue(event, inputType) {
-      this[inputType] = event.target.value;
+      this.form[inputType] = event.target.value;
+    },
+    setInvalidOnUi(keys, invalidKeys) {
+      for (let i = 0; i < keys.length; i++) {
+        if (invalidKeys.includes(keys[i])) {
+          if (keys[i] === "overallNumber" || keys[i] === "freeText") {
+            this.$refs[keys[i]].parentElement.style.color = "#f00";
+          } else {
+            this.$refs[keys[i]].$el.style.color = "#f00";
+          }
+        } else {
+          if (keys[i] === "overallNumber" || keys[i] === "freeText") {
+            this.$refs[keys[i]].parentElement.style.color = "#000";
+          } else {
+            this.$refs[keys[i]].$el.style.color = "#000";
+          }
+        }
+      }
+    },
+    validateInput() {
+      const keys = Object.keys(
+        Object.assign({}, this.form, {
+          overallNumber: this.overallNumber,
+          freeText: this.freeText
+        })
+      );
+      let invalidKeys = [];
+      for (let i = 0; i < keys.length; i++) {
+        if (!this.form[keys[i]]) {
+          invalidKeys.push(keys[i]);
+        }
+      }
+      this.setInvalidOnUi(keys, invalidKeys);
+      this.isValidated = true;
+      return invalidKeys;
+    },
+    async submitAnswers() {
+      // const valid =
+      await this.validateInput();
+    }
+  },
+  watch: {
+    form: {
+      deep: true,
+      handler: function() {
+        if (this.isValidated) {
+          this.validateInput();
+        }
+      }
     }
   }
 };

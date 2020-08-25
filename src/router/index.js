@@ -14,7 +14,9 @@ const routes = [
     path: "/questionnaire",
     name: "questionnaire",
     component: () =>
-      import(/* webpackChunkName: "questionnaire" */ "../views/Form.vue")
+      import(
+        /* webpackChunkName: "questionnaire" */ "../views/Questionnaire.vue"
+      )
   }
 ];
 
