@@ -25,7 +25,6 @@ export default {
     async sendSignIn() {
       try {
         const user = await signIn();
-        console.log(user);
         this.$store.dispatch("setUser", user);
       } catch (err) {
         alert(err);

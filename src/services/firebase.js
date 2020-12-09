@@ -20,7 +20,6 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 async function registerAnonymousUser(data) {
-  console.log(data);
   db.collection("users")
     .doc(data.user.uid)
     .set({
