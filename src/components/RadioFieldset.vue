@@ -40,7 +40,10 @@ export default {
       communicating: null,
       requesting: null,
       promise: null,
-      feedback: null
+      feedback: null,
+      yes: null,
+      neutral: null,
+      no: null
     };
   },
   methods: {

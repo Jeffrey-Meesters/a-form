@@ -50,6 +50,18 @@
         <hr />
       </div>
 
+      <RadioFieldset
+        :hasMadeProgress.sync="form.hasMadeProgress"
+        radioID="hasMadeProgress"
+        ref="hasMadeProgress"
+        legendText="Has made progress in communicating over the past 4 months"
+        :responseOptions="['yes', 'neutral', 'no']"
+      />
+
+      <div class="hr-wrapper">
+        <hr />
+      </div>
+
       <fieldset class="fieldset">
         <legend class="number-legend">
           How would you rate Jeffreys' communication skills overall
@@ -91,7 +103,7 @@
 
 <script>
 import RadioFieldset from "@/components/RadioFieldset";
-import { updateUser } from "@/services/firebase";
+// import { updateUser } from "@/services/firebase";
 export default {
   name: "Form",
   components: {
@@ -111,6 +123,7 @@ export default {
     return {
       isValidated: false,
       form: {
+        hasMadeProgress: null,
         listening: null,
         understanding: null,
         communicating: null,
@@ -152,6 +165,7 @@ export default {
         })
       );
       let invalidKeys = [];
+      console.log(this.form);
       for (let i = 0; i < keys.length; i++) {
         if (!this.form[keys[i]]) {
           invalidKeys.push(keys[i]);
@@ -159,6 +173,7 @@ export default {
       }
       this.setInvalidOnUi(keys, invalidKeys);
       this.isValidated = true;
+      console.log(invalidKeys);
       return invalidKeys;
     },
     async submitAnswers() {
@@ -167,16 +182,18 @@ export default {
         return;
       }
 
-      const response = await updateUser(this.form);
-      if (Object.keys(response).length) {
-        this.$router.push("/thanks");
-      }
+      console.log(this.form);
+      // const response = await updateUser(this.form);
+      // if (Object.keys(response).length) {
+      //   this.$router.push("/thanks");
+      // }
     }
   },
   watch: {
     form: {
       deep: true,
-      handler: function() {
+      handler: function(val) {
+        console.log(val);
         if (this.isValidated) {
           this.validateInput();
         }
