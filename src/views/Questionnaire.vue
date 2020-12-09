@@ -103,7 +103,7 @@
 
 <script>
 import RadioFieldset from "@/components/RadioFieldset";
-// import { updateUser } from "@/services/firebase";
+import { updateUser } from "@/services/firebase";
 export default {
   name: "Form",
   components: {
@@ -165,7 +165,7 @@ export default {
         })
       );
       let invalidKeys = [];
-      console.log(this.form);
+
       for (let i = 0; i < keys.length; i++) {
         if (!this.form[keys[i]]) {
           invalidKeys.push(keys[i]);
@@ -173,7 +173,7 @@ export default {
       }
       this.setInvalidOnUi(keys, invalidKeys);
       this.isValidated = true;
-      console.log(invalidKeys);
+
       return invalidKeys;
     },
     async submitAnswers() {
@@ -182,11 +182,10 @@ export default {
         return;
       }
 
-      console.log(this.form);
-      // const response = await updateUser(this.form);
-      // if (Object.keys(response).length) {
-      //   this.$router.push("/thanks");
-      // }
+      const response = await updateUser(this.form);
+      if (Object.keys(response).length) {
+        this.$router.push("/thanks");
+      }
     }
   },
   watch: {
