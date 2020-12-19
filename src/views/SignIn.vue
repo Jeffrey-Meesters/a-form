@@ -1,19 +1,24 @@
 <template>
   <section>
-    <h1>Welcome to this questionnaire</h1>
-    <p>
-      Your answers to this questionnaire will be saved in a database.
-      <br />
-      However this will be done anonymous. At the end of the questionnaire you
-      will get a reference id.
-      <br />
-      You can save that reference id for yourself on your computer for when you
-      might want to talk about your answers later.
-      <br />
-      However, keep in mind that sharing that reference id may revoke your
-      anonymity
-    </p>
-    <button @click="sendSignIn">Go to Questionnaire</button>
+    <form @submit.prevent="sendSignIn" class="form">
+      <label for="email">Email:</label>
+      <input
+        type="text"
+        placeholder="Email"
+        name="email"
+        id="email"
+        v-model="form.email"
+      />
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        placeholder="Password"
+        name="password"
+        id="password"
+        v-model="form.password"
+      />
+      <button type="submit">Log in</button>
+    </form>
   </section>
 </template>
 
@@ -21,11 +26,22 @@
 import { signIn } from "@/services/firebase";
 export default {
   name: "Sign-in",
+  data: () => ({
+    form: {
+      email: "",
+      password: ""
+    }
+  }),
   methods: {
     async sendSignIn() {
       try {
-        const user = await signIn();
-        this.$store.dispatch("setUser", user);
+        const resp = await signIn(this.form);
+        if (resp.user.uid) {
+          // It's only updating internal state, not updating firebase, to null
+          await this.$store.dispatch("setAnonymousUser", null);
+          await this.$store.dispatch("setUser", resp.user);
+          this.$router.push("/results");
+        }
       } catch (err) {
         alert(err);
       }
@@ -33,3 +49,25 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+section {
+  display: grid;
+  grid-template-columns: 0.5fr;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 100px 200px;
+  grid-gap: 10px;
+}
+
+label {
+  grid-column: 1 / 2;
+}
+
+input,
+button {
+  grid-column: 2 / 3;
+}
+</style>

@@ -65,7 +65,7 @@ export async function initAuth() {
   });
 }
 
-export async function signIn() {
+export async function signInAnonymously() {
   const resp = await auth.signInAnonymously();
   if (resp?.additionalUserInfo?.isNewUser) {
     registerAnonymousUser(resp);
@@ -73,4 +73,24 @@ export async function signIn() {
   } else {
     return getUser();
   }
+}
+
+export async function signIn({ email, password }) {
+  return firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch(error => {
+      console.log(error);
+    });
+}
+
+export async function getdata() {
+  db.collection("users")
+    .get()
+    .then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        console.log(doc.id, " => ", doc.data());
+      });
+    });
 }
