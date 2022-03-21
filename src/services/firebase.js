@@ -5,13 +5,7 @@ import "firebase/auth";
 import store from "@/store";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCYYimRWpHDdEwni_p6RCbO51QvQnVkTpw",
-  authDomain: "communication-questionaire.firebaseapp.com",
-  databaseURL: "https://communication-questionaire.firebaseio.com",
-  projectId: "communication-questionaire",
-  storageBucket: "communication-questionaire.appspot.com",
-  messagingSenderId: "390006855673",
-  appId: "1:390006855673:web:40b98bd638c1a679740f28"
+  // doesn't exist anymore
 };
 
 firebase.initializeApp(firebaseConfig);
