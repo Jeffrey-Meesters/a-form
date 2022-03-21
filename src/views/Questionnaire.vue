@@ -115,6 +115,10 @@ export default {
     }
   },
   mounted() {
+    // make absolutely sure we do not have a authenticated user
+    // in app state.
+    this.$store.dispatch("setUser", null);
+
     if (!this.userData) {
       this.$router.push("/");
     }

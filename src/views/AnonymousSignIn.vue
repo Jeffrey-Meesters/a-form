@@ -14,7 +14,10 @@
         However, keep in mind that sharing that reference id may revoke your
         anonymity
       </p>
-      <button @click="sendSignIn">Go to Questionnaire</button>
+      <span class="sub-btn-wrapper">
+        <button @click="sendSignIn" disabled>Go to Questionnaire</button>
+        <sup>Questionaire is closed</sup>
+      </span>
     </section>
     <section>
       <p>Or log in to see the results.</p>
@@ -25,24 +28,33 @@
 
 <script>
 import { Fragment } from "vue-fragment";
-import { signInAnonymously } from "@/services/firebase";
+// import { signInAnonymously } from "@/services/firebase";
 export default {
   name: "Sign-in",
   components: { Fragment },
   methods: {
     async sendSignIn() {
-      try {
-        const user = await signInAnonymously();
-        if (user.uid) {
-          // It's only updating internal state, not updating firebase, to null
-          await this.$store.dispatch("setUser", null);
-          await this.$store.dispatch("setAnonymousUser", user);
-          this.$router.push("/questionnaire");
-        }
-      } catch (err) {
-        alert(err);
-      }
+      return alert("Questionnaire is closed.");
+      // try {
+      //   const user = await signInAnonymously();
+      //   if (user.uid) {
+      //     // It's only updating internal state, not updating firebase, to null
+      //     await this.$store.dispatch("setUser", null);
+      //     await this.$store.dispatch("setAnonymousUser", user);
+      //     this.$router.push("/questionnaire");
+      //   }
+      // } catch (err) {
+      //   alert(err);
+      // }
     }
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.sub-btn-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+}
+</style>

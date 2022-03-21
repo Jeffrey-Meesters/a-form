@@ -85,12 +85,17 @@ export async function signIn({ email, password }) {
 }
 
 export async function getdata() {
-  db.collection("users")
+  const data = [];
+  await db
+    .collection("users")
     .get()
     .then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
-        console.log(doc.id, " => ", doc.data());
+        data.push(doc.data());
       });
     });
+  return data;
 }
+
+export { firebase, db };
